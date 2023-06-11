@@ -8,10 +8,17 @@ export function fetchAllProducts() {
     
   );
 }
-export function fetchProductsByFilters(filter) {
+export function fetchProductsByFilters(filter,sort) {
   let queryString=''
   for(let key in filter){
-    queryString+=`${key}=${filter[key]}&`
+    const categoruValues=filter[key]
+    if(categoruValues.length){
+      const lastCategoryValue=categoruValues[categoruValues.length-1]
+      queryString+=`${key}=${lastCategoryValue}&`
+    }
+  }
+  for(let key in sort){
+    queryString+=`${key}=${sort[key]}&`
   }
   return new Promise(async(resolve) =>{
     const response=await fetch("http://localhost:8080/products/?"+queryString)
