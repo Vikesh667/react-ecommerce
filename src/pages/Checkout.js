@@ -15,7 +15,7 @@ import {
   selectLoggedInUser,
   updateUserAsync,
 } from "../features/Auth/AuthSlice";
-import { createOrderAsync } from "../features/order/orderSlice";
+import { createOrderAsync, selectCurrentOrder} from "../features/order/orderSlice";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -28,6 +28,7 @@ const Checkout = () => {
     formState: { errors },
   } = useForm();
   const user = useSelector(selectLoggedInUser);
+  const curretOrder=useSelector(selectCurrentOrder)
   const totalAmount = items.reduce(
     (amount, item) => item.price * item.quantiy + amount,
     0
@@ -50,13 +51,22 @@ const Checkout = () => {
     setPaymentMethod(e.target.value);
     console.log(e.target.value);
   };
-  const handleOrder=()=>{
-    const order={items,totalAmount,totalItems,user,paymentMethod,selectedAddress}
-     dispatch(createOrderAsync(order))
-  }
+  const handleOrder = () => {
+    const order = {
+      items,
+      totalAmount,
+      totalItems,
+      user,
+      paymentMethod,
+      selectedAddress,
+      status:"pending"
+    };
+    dispatch(createOrderAsync(order));
+  };
   return (
     <>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
+      {curretOrder && <Navigate to={`/order-success/${curretOrder.id}`} replace={true}></Navigate>}
       <div className="mx-auto bg-white mt-12 max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3">
@@ -399,7 +409,7 @@ const Checkout = () => {
                 </p>
                 <div className="mt-6">
                   <div
-                  type="submit"
+                    type="submit"
                     onClick={handleOrder}
                     className="flex items-center cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                   >
