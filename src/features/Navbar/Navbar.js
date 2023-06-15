@@ -6,6 +6,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import {Link} from "react-router-dom"
+import { useSelector } from "react-redux";
+import { selectItems } from "../Cart/CartSlice";
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
@@ -27,6 +29,8 @@ function classNames(...classes) {
 }
 
 const Navbar = ({ children }) => {
+  const items=useSelector(selectItems)
+  console.log(items)
   return (
     <div className="min-h-full">
       <Disclosure as="nav" className="bg-gray-800">
@@ -78,9 +82,9 @@ const Navbar = ({ children }) => {
                       />
                     </button>
                     </Link>
-                    <span className="inline-flex items-center rounded-md mb-5 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                      5
-                    </span>
+                  {items.length>0 && <span className="inline-flex items-center rounded-md mb-5 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                      {items.length}
+                    </span>}
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
                       <div>
@@ -180,9 +184,9 @@ const Navbar = ({ children }) => {
                   >
                     <span className="sr-only">View notifications</span>
                     <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
-                    <span className="inline-flex items-center rounded-md mb-7 -ml-3 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                      5
-                    </span>
+                   {items.length>0 && <span className="inline-flex items-center rounded-md mb-7 -ml-3 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                      {items.length}
+                    </span>}
                   </button>
                   </Link>
                 </div>
