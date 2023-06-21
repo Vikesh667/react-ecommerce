@@ -12,10 +12,10 @@ import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
-  selectLoggedInUser,
-  updateUserAsync,
-} from "../features/Auth/AuthSlice";
-import { createOrderAsync, selectCurrentOrder} from "../features/order/orderSlice";
+  createOrderAsync,
+  selectCurrentOrder,
+} from "../features/order/orderSlice";
+import { selectUserInfo,UpdateUserAsync } from "../features/user/userSilce";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -27,8 +27,9 @@ const Checkout = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const user = useSelector(selectLoggedInUser);
-  const curretOrder=useSelector(selectCurrentOrder)
+  const user = useSelector(selectUserInfo);
+
+  const curretOrder = useSelector(selectCurrentOrder);
   const totalAmount = items.reduce(
     (amount, item) => item.price * item.quantiy + amount,
     0
@@ -59,14 +60,19 @@ const Checkout = () => {
       user,
       paymentMethod,
       selectedAddress,
-      status:"pending"
+      status: "pending",
     };
     dispatch(createOrderAsync(order));
   };
   return (
     <>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
-      {curretOrder && <Navigate to={`/order-success/${curretOrder.id}`} replace={true}></Navigate>}
+      {curretOrder && (
+        <Navigate
+          to={`/order-success/${curretOrder.id}`}
+          replace={true}
+        ></Navigate>
+      )}
       <div className="mx-auto bg-white mt-12 max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3">
@@ -75,7 +81,7 @@ const Checkout = () => {
               noValidate
               onSubmit={handleSubmit((data) => {
                 dispatch(
-                  updateUserAsync({
+                  UpdateUserAsync({
                     ...user,
                     addresses: [...user.addresses, data],
                   })

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchCount, updateUser } from './AuthApi';
+import { updateUser } from '../user/userApi';
 import {createUser,checkUser} from "./AuthApi"
 
 
