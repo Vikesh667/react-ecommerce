@@ -536,5 +536,6 @@ function ProductGrid({ products, filters }) {
         </div>
       </div>
     </div>
+  
   );
 }
