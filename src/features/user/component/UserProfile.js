@@ -52,6 +52,9 @@ export function UserProfile() {
       <h4 className="text-xl my-5 font-bold tracking-tight text-gray-900">
         Email:{user.email}
       </h4>
+     {user.role=='admin' && <h4 className="text-xl my-5 font-bold tracking-tight text-gray-900">
+        role:{user.role}
+      </h4>}
       <div className="border-t border-gray-200 px-4 py-6 sm:px-6"></div>
 
       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { selectLoggedInUser,createUserAsync } from "../AuthSlice";
+import { selectLoggedInUser, createUserAsync } from "../AuthSlice";
 import { Link } from "react-router-dom";
 
 export default function SignUp() {
@@ -12,7 +12,7 @@ export default function SignUp() {
     watch,
     formState: { errors },
   } = useForm();
-const user=useSelector(selectLoggedInUser)
+  const user = useSelector(selectLoggedInUser);
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       {user?.email}
@@ -32,7 +32,14 @@ const user=useSelector(selectLoggedInUser)
           className="space-y-6"
           noValidate
           onSubmit={handleSubmit((data) => {
-            dispatch(createUserAsync({email:data.email,password:data.password,address:[]}))
+            dispatch(
+              createUserAsync({
+                email: data.email,
+                password: data.password,
+                addresses: [],
+                role:"User"
+              })
+            );
           })}
         >
           <div>
@@ -64,8 +71,8 @@ const user=useSelector(selectLoggedInUser)
                 Password
               </label>
               <div className="text-sm">
-              <Link
-                  to='/forgot-password'
+                <Link
+                  to="/forgot-password"
                   className="font-semibold text-indigo-600 hover:text-indigo-500"
                 >
                   Forgot password?

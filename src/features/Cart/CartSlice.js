@@ -49,7 +49,7 @@ export const resetCartAsync= createAsyncThunk(
     return response.data;
   }
 );
-export const orderSlice = createSlice({
+export const cartSlice = createSlice({
   name: 'cart',
   initialState,
  
@@ -107,11 +107,11 @@ export const orderSlice = createSlice({
   },
 });
 
-export const { resetOrder } = orderSlice.actions;
+export const { resetOrder } = cartSlice.actions;
 
 
 export const selectItems = (state) => state.cart.item;
 
 
-export default orderSlice.reducer;
+export default cartSlice.reducer;
   
