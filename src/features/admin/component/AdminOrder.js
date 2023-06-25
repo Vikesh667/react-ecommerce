@@ -7,15 +7,20 @@ import {
   selectTotalOrders,
   updateOrderAsync,
 } from "../../order/orderSlice";
-import { PencilIcon, EyeIcon,ArrowUpIcon,ArrowDownIcon } from "@heroicons/react/24/outline";
+import {
+  PencilIcon,
+  EyeIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+} from "@heroicons/react/24/outline";
 import Pagination from "../../common/Pagination";
 const AdminOrder = () => {
   const dispatch = useDispatch();
- 
+
   const orders = useSelector(selectOrders);
   const [editableOrderId, setEditableOrderId] = useState(-1);
   const totalOrders = useSelector(selectTotalOrders);
-  console.log(totalOrders)
+  console.log(totalOrders);
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState({});
   const handleShow = () => {};
@@ -75,6 +80,12 @@ const AdminOrder = () => {
                     }
                   >
                     #Order
+                    {sort._sort === "id" &&
+                      (sort._order === "asc" ? (
+                        <ArrowUpIcon className="w-4 h-4 inline"/>
+                      ) : (
+                        <ArrowDownIcon className="w-4 h-4 inline"/>
+                      ))}
                   </th>
                   <th className="py-3 px-6 text-left">Items</th>
                   <th className="py-3 px-6 text-center">Total Amount</th>

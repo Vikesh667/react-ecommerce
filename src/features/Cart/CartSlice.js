@@ -112,6 +112,6 @@ export const { resetOrder } = cartSlice.actions;
 
 export const selectItems = (state) => state.cart.item;
 
-
+export const selectCartLoader=(state)=>state.cart.status
 export default cartSlice.reducer;
   
