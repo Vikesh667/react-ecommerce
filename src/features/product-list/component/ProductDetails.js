@@ -52,9 +52,9 @@ export default function ProductDetails() {
         user: user.id,
       };
       dispatch(addToCartAsync(newItem));
-      alert.show("Item added to cart");
+      alert.success("Item added to cart");
     } else {
-      alert.show("Item already added");
+      alert.error("Item already added");
     }
   };
   useEffect(() => {

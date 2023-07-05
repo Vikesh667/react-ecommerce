@@ -4,6 +4,7 @@ import {
   clearSelectedProduct,
   createProductAsync,
   fetchAllProductByIdAsync,
+  selectAllProducts,
   selectBrands,
   selectCategories,
   selectProductById,
@@ -12,6 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import Modal from "../../common/Modal";
+import { useAlert } from "react-alert";
 const ProductForm = () => {
   const dispatch = useDispatch();
   const [openModal,setOpenModal]=useState(null)
@@ -26,6 +28,7 @@ const ProductForm = () => {
   const categories = useSelector(selectCategories);
   const selectedProduct = useSelector(selectProductById);
   const params = useParams();
+  const alert=useAlert()
   useEffect(() => {
     if (params.id) {
       dispatch(fetchAllProductByIdAsync(params.id));
@@ -79,9 +82,11 @@ const ProductForm = () => {
             product.id = params.id;
             product.rating = selectedProduct.rating || 0;
             dispatch(updateProductAsync(product));
+            alert.success("Product Updated")
             reset();
           } else {
             dispatch(createProductAsync(product));
+            alert.success("Product Created")
             reset();
           }
         })}
@@ -92,7 +97,7 @@ const ProductForm = () => {
               Add Product
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              {/* {selectedProduct.deleted && <h2 className="text-red-500">This product is Deleted</h2>} */}
+              {selectedProduct && selectedProduct.deleted && <h2 className="text-red-500">This product is Deleted</h2>}
               <div className="sm:col-span-6">
                 <label
                   htmlFor="title"
@@ -234,6 +239,7 @@ const ProductForm = () => {
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ">
                     <input
                       type="number"
+
                       {...register("stock", {
                         required: "stock is reqquired",
                         min: 0,
@@ -431,15 +437,15 @@ const ProductForm = () => {
           </button>
         </div>
       </form>
-      <Modal
-        // title={`Delete ${selectedProduct.title}`}
+     {selectedProduct && <Modal
+        title={`Delete ${selectedProduct.title}`}
         message="Are you sure want to delete this Prodcut ?"
         dangerOption="Delete"
         CancelOption="Cancel"
         dangerAction={handleDelete}
         showModal={openModal}
         CancelAction={() => setOpenModal(null)}
-      ></Modal>
+      ></Modal>}
     </>
   );
 };
