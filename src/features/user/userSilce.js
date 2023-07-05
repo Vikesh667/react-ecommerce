@@ -3,7 +3,6 @@ import { fetchLoggedInUser, fetchLoggedInUserOrders,updateUser } from './userApi
 
 
 const initialState = {
-  userOrders: [],
   status: 'idle',
   userInfo:[]
 };
@@ -26,8 +25,8 @@ export const fetchLoggedInUserAsync = createAsyncThunk(
 );
 export const UpdateUserAsync = createAsyncThunk(
   'user/updateUser',
-  async (id) => {
-    const response = await updateUser(id);
+  async (update) => {
+    const response = await updateUser(update);
 
     return response.data;
   }
@@ -54,14 +53,14 @@ export const userSlice = createSlice({
       })
       .addCase(fetchLoggedInUserOrdersAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.userOrders= action.payload;
+        state.userInfo.orders= action.payload;
       })
       .addCase(UpdateUserAsync.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(UpdateUserAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.userOrders= action.payload;
+        state.userInfo= action.payload;
       })
       .addCase(fetchLoggedInUserAsync.pending, (state) => {
         state.status = 'loading';
@@ -73,7 +72,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const selectUserOrders=(state)=>state.user.userOrders
+export const selectUserOrders=(state)=>state.user.userInfo.orders
 export const selectUserInfo=(state)=>state.user.userInfo
 export const { increment } = userSlice.actions;
 

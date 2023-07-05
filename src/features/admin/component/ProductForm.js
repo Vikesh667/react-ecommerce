@@ -92,7 +92,7 @@ const ProductForm = () => {
               Add Product
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              {selectedProduct.deleted && <h2 className="text-red-500">This product is Deleted</h2>}
+              {/* {selectedProduct.deleted && <h2 className="text-red-500">This product is Deleted</h2>} */}
               <div className="sm:col-span-6">
                 <label
                   htmlFor="title"
@@ -432,7 +432,7 @@ const ProductForm = () => {
         </div>
       </form>
       <Modal
-        title={`Delete ${selectedProduct.title}`}
+        // title={`Delete ${selectedProduct.title}`}
         message="Are you sure want to delete this Prodcut ?"
         dangerOption="Delete"
         CancelOption="Cancel"

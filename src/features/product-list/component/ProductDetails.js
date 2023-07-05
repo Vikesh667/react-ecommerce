@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { addToCartAsync, selectItems } from "../../Cart/CartSlice";
 import { selectLoggedInUser } from "../../Auth/AuthSlice";
 import { useAlert } from "react-alert";
+import { discountedPrice } from "../../../app/constents";
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
   { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
@@ -44,10 +45,9 @@ export default function ProductDetails() {
   const alert = useAlert();
   const handleCart = (e) => {
     e.preventDefault();
-    if (items.findIndex((item) => item.productId === product.id) < 0) {
+    if (items.findIndex((item) => item.product.id === product.id) < 0) {
       const newItem = {
-        ...product,
-        productId: product.id,
+       product: product.id,
         quantiy: 1,
         user: user.id,
       };
@@ -150,10 +150,12 @@ export default function ProductDetails() {
             {/* Options */}
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-gray-900">
-                {product.price}
+              <p className="text-3xl line through tracking-tight text-gray-900">
+                {discountedPrice(product)}
               </p>
-
+              <p className="text-3xl tracking-tight text-gray-900">
+                {discountedPrice(product)}
+              </p>
               {/* Reviews */}
               <div className="mt-6">
                 <h3 className="sr-only">Reviews</h3>

@@ -16,7 +16,7 @@ import {
   selectCurrentOrder,
 } from "../features/order/orderSlice";
 import { selectUserInfo,UpdateUserAsync } from "../features/user/userSilce";
-
+import {discountedPrice} from "../app/constents"
 const Checkout = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
@@ -31,7 +31,7 @@ const Checkout = () => {
 
   const curretOrder = useSelector(selectCurrentOrder);
   const totalAmount = items.reduce(
-    (amount, item) => item.price * item.quantiy + amount,
+    (amount, item) => item.product.price * item.quantiy + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantiy + total, 0);
@@ -40,7 +40,7 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const handleQuantity = (e, item) => {
     console.log(e.target.value);
-    dispatch(updateCartAsync({ ...item, quantiy: +e.target.value }));
+    dispatch(updateCartAsync({ id:item.id, quantiy: +e.target.value }));
   };
   const handleRemove = (e, id) => {
     dispatch(deleteItemFromCartAsync(id));
@@ -57,7 +57,7 @@ const Checkout = () => {
       items,
       totalAmount,
       totalItems,
-      user,
+      user:user.id,
       paymentMethod,
       selectedAddress,
       status: "pending",
@@ -343,10 +343,11 @@ const Checkout = () => {
                   <ul role="list" className="-my-6 divide-y divide-gray-200">
                     {items.map((item) => (
                       <li key={item.id} className="flex py-6">
+                        {console.log(item.product.price)}
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                           <img
-                            src={item.thumbnail}
-                            alt={item.title}
+                            src={item.product.thumbnail}
+                            alt={item.product.title}
                             className="h-full w-full object-cover object-center"
                           />
                         </div>
@@ -355,12 +356,12 @@ const Checkout = () => {
                           <div>
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
-                                <a href={item.href}>{item.title}</a>
+                                <a href={item.product.id}>{item.product.title}</a>
                               </h3>
-                              <p className="ml-4">${item.price}</p>
+                              <p className="ml-4">${item.product.price}</p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">
-                              {item.brand}
+                              {item.product.brand}
                             </p>
                           </div>
                           <div className="flex flex-1 items-end justify-between text-sm">

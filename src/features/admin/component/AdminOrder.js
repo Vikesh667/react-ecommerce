@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ITEMS_PER_PAGE } from "../../../app/constents";
+import { ITEMS_PER_PAGE, discountedPrice } from "../../../app/constents";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllOrdersAsync,
@@ -113,7 +113,7 @@ const AdminOrder = () => {
                             />
                           </div>
                           <span>
-                            {item.title} - #{item.quantiy} - ${item.price}
+                            {item.title} - #{item.quantiy} - ${item}
                           </span>
                         </div>
                       ))}

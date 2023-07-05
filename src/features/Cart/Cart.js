@@ -6,9 +6,10 @@ import {
   selectItems,
   updateCartAsync,
 } from "./CartSlice";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Grid } from "react-loader-spinner";
 import Modal from "../common/Modal";
+import { discountedPrice } from "../../app/constents";
 export default function Cart() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
@@ -16,21 +17,21 @@ export default function Cart() {
   const items = useSelector(selectItems);
   const status = useSelector(selectCartLoader);
   const totalAmount = items.reduce(
-    (amount, item) => item.price * item.quantiy + amount,
+    (amount, item) =>item.product.price* item.quantiy + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantiy + total, 0);
 
   const handleQuantity = (e, item) => {
     console.log(e.target.value);
-    dispatch(updateCartAsync({ ...item, quantiy: +e.target.value }));
+    dispatch(updateCartAsync({ id:item.id, quantiy: +e.target.value }));
   };
   const handleRemove = (e, id) => {
     dispatch(deleteItemFromCartAsync(id));
   };
   return (
     <>
-      {/* show={showModal} */}
+     {!items.length && <Navigate to='/' replace={true}></Navigate>}
       <div>
         <div className="mx-auto bg-white mt-12 max-w-6xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl my-5 font-bold tracking-tight text-gray-900">
@@ -52,11 +53,13 @@ export default function Cart() {
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y divide-gray-200">
                 {items.map((item) => (
+                  
                   <li key={item.id} className="flex py-6">
+                    
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
-                        src={item.thumbnail}
-                        alt={item.title}
+                        src={item.product.thumbnail}
+                        alt={item.product.title}
                         className="h-full w-full object-cover object-center"
                       />
                     </div>
@@ -65,12 +68,12 @@ export default function Cart() {
                       <div>
                         <div className="flex justify-between text-base font-medium text-gray-900">
                           <h3>
-                            <a href={item.href}>{item.title}</a>
+                            <a href={item.product.id}>{item.product.title}</a>
                           </h3>
-                          <p className="ml-4">${item.price}</p>
+                          <p className="ml-4">${item.product.price}</p>
                         </div>
                         <p className="mt-1 text-sm text-gray-500">
-                          {item.brand}
+                          {item.product.brand}
                         </p>
                       </div>
                       <div className="flex flex-1 items-end justify-between text-sm">
@@ -96,7 +99,7 @@ export default function Cart() {
 
                         <div className="flex">
                           <Modal
-                            title={`Delete ${item.title}`}
+                            title={`Delete ${item.product.title}`}
                             message="Are you sure want to delete this Cart item ?"
                             dangerOption="Delete"
                             CancelOption="Cancel"

@@ -16,7 +16,7 @@ import {
   ChevronRightIcon,
   StarIcon,
 } from "@heroicons/react/20/solid";
-import { ITEMS_PER_PAGE } from "../../../app/constents";
+import { ITEMS_PER_PAGE, discountedPrice } from "../../../app/constents";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -509,10 +509,8 @@ function ProductGrid({ products, filters }) {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-900">
-                        $
-                        {Math.round(
-                          product.price * (1 - product.discountPercentage / 100)
-                        )}
+                        ${product.price}
+                        
                       </p>
                       <p className="text-sm font-medium line-through text-gray-400">
                         ${product.price}
