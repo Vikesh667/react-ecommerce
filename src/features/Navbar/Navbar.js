@@ -8,13 +8,13 @@ import {
 import {Link} from "react-router-dom"
 import { useSelector } from "react-redux";
 import { selectItems } from "../Cart/CartSlice";
-import {selectLoggedInUser} from "../Auth/AuthSlice"
+import { selectUserInfo } from "../user/userSilce";
 const navigation = [
-  { name: "Products", link: "/", user: true },
+  { name: "Products", link: "/", userInfo: true },
   { name: "Products", link: "/admin", admin: true },
   { name: "Orders", link: "/admin/orders", admin: true }
 ];
-const userNavigation = [
+const userInfoNavigation = [
   { name: "Your Profile", link: "/profile" },
   { name: "My Orders", link: "/orders" },
   { name: "Sign out", link: "/logout" },
@@ -26,7 +26,7 @@ function classNames(...classes) {
 
 const Navbar = ({ children }) => {
   const items=useSelector(selectItems)
-  const user=useSelector(selectLoggedInUser)
+  const userInfo=useSelector(selectUserInfo)
   return (
     <div className="min-h-full">
       <Disclosure as="nav" className="bg-gray-800">
@@ -47,7 +47,7 @@ const Navbar = ({ children }) => {
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item) => (
-                       item[user.role] ? <Link
+                       item[userInfo.role] ? <Link
                           key={item.name}
                           to={item.link}
                           className={classNames(
@@ -85,10 +85,10 @@ const Navbar = ({ children }) => {
                     <Menu as="div" className="relative ml-3">
                       <div>
                         <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                          <span className="sr-only">Open user menu</span>
+                          <span className="sr-only">Open userInfo menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src={user.imageUrl}
+                            src={userInfo.imageUrl}
                             alt=""
                           />
                         </Menu.Button>
@@ -103,7 +103,7 @@ const Navbar = ({ children }) => {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          {userNavigation.map((item) => (
+                          {userInfoNavigation.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
                                 <Link 
@@ -161,16 +161,16 @@ const Navbar = ({ children }) => {
                   <div className="flex-shrink-0">
                     <img
                       className="h-10 w-10 rounded-full"
-                      src={user.imageUrl}
+                      src={userInfo.imageUrl}
                       alt=""
                     />
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium leading-none text-white">
-                      {user.name}
+                      {userInfo.name}
                     </div>
                     <div className="text-sm font-medium leading-none text-gray-400">
-                      {user.email}
+                      {userInfo.email}
                     </div>
                   </div>
                   <Link to='/cartpage'>
@@ -187,7 +187,7 @@ const Navbar = ({ children }) => {
                   </Link>
                 </div>
                 <div className="mt-3 space-y-1 px-2">
-                  {userNavigation.map((item) => (
+                  {userInfoNavigation.map((item) => (
                     <Disclosure.Button
                       key={item.name}
                       as="a"

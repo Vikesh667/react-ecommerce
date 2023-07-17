@@ -5,14 +5,13 @@ import { discountedPrice } from "../../../app/constents";
 
 export function UserOrders() {
   const dispatch = useDispatch();
-  const user = useSelector(selectUserInfo);
   const orders = useSelector(selectUserOrders);
   useEffect(() => {
-    dispatch(fetchLoggedInUserOrdersAsync(user.id));
+    dispatch(fetchLoggedInUserOrdersAsync());
   }, []);
   return (
     <div>
-      {orders.map((order) => (
+      {orders && orders.map((order) => (
         <div>
           <div className="mx-auto bg-white mt-12 max-w-6xl px-4 sm:px-6 lg:px-8">
             <h2 className="text-4xl my-5 font-bold tracking-tight text-gray-900">

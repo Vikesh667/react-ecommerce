@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProductByIdAsync, selectProductById } from "../productSlice";
 import { useParams } from "react-router-dom";
 import { addToCartAsync, selectItems } from "../../Cart/CartSlice";
-import { selectLoggedInUser } from "../../Auth/AuthSlice";
+import {  selectloggedInUser } from "../../Auth/AuthSlice";
 import { useAlert } from "react-alert";
 import { discountedPrice } from "../../../app/constents";
 const colors = [
@@ -41,7 +41,7 @@ export default function ProductDetails() {
   const items = useSelector(selectItems);
   const dispatch = useDispatch();
   const params = useParams();
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectloggedInUser);
   const alert = useAlert();
   const handleCart = (e) => {
     e.preventDefault();
@@ -49,7 +49,6 @@ export default function ProductDetails() {
       const newItem = {
        product: product.id,
         quantiy: 1,
-        user: user.id,
       };
       dispatch(addToCartAsync(newItem));
       alert.success("Item added to cart");

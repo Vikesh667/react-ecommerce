@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { selectLoggedInUser, createUserAsync } from "../AuthSlice";
+import {  createUserAsync, selectloggedInUser } from "../AuthSlice";
 import { Link } from "react-router-dom";
 
 export default function SignUp() {
@@ -12,7 +12,7 @@ export default function SignUp() {
     watch,
     formState: { errors },
   } = useForm();
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectloggedInUser);
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       {user?.email}
